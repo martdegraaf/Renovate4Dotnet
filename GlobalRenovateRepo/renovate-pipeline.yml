@@ -1,0 +1,36 @@
+trigger: none
+
+parameters:
+  - name: logLevel
+    displayName: "The loglevel to use for renovate"
+    type: string
+    default: "info"
+    values:
+      - info
+      - debug
+
+variables:
+  logLevel: ${{ parameters.logLevel }}
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+    fetchDepth: 1
+    clean: true
+
+  - bash: |
+      sudo add-apt-repository ppa:git-core/ppa
+      sudo apt update && sudo apt install git -y
+    displayName: 'Install latest version of Git'
+
+  - bash: |
+      git config --global user.email 'bot@renovateapp.com'
+      git config --global user.name 'Renovate Bot'
+      npx --userconfig .npmrc renovate
+    env:
+      RENOVATE_PLATFORM: "azure"
+      RENOVATE_ENDPOINT: $(System.CollectionUri)
+      AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT)
+      LOG_LEVEL: debug

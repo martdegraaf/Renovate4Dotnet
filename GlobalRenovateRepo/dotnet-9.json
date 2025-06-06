@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "config:best-practices"
+  ],
+  "enabledManagers": ["nuget", "regex"],
+  "packageRules": [
+    {
+      "managers": ["nuget"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchPackagePatterns": [".*"],
+      "enabled": true
+    },
+    {
+      "description": "Pin .NET SDK to latest version of .NET 8",
+      "managers": ["regex"],
+      "matchFiles": ["global.json"],
+      "matchStrings": [
+        "\"version\":\\s*\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "datasourceTemplate": "nuget",
+      "packageNameTemplate": "Microsoft.NETCore.App",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "{{ currentValue }}",
+      "allowedVersions": "^9\\."
+    }
+  ]
+}
