@@ -1,3 +1,10 @@
+schedules:
+  - cron: '0 3 * * *'
+    displayName: 'Every day at 3am (UTC)'
+    branches:
+      include: [ main ]
+    always: true
+
 trigger: none
 
 parameters:
@@ -33,4 +40,7 @@ steps:
       RENOVATE_PLATFORM: "azure"
       RENOVATE_ENDPOINT: $(System.CollectionUri)
       AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT)
-      LOG_LEVEL: debug
+      AZURE_DEVOPS_ORGANIZATION: $(System.CollectionUri)
+      AZURE_DEVOPS_PROJECT: $(System.TeamProject)
+      RENOVATE_GITHUB_COM_TOKEN: $(GITHUB_PAT)
+      LOG_LEVEL: $(logLevel)
