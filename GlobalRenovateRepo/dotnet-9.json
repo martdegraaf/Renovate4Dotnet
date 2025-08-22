@@ -11,7 +11,7 @@
       "enabled": true
     },
     {
-      "description": "Pin .NET SDK to latest version of .NET 8",
+      "description": "Pin .NET SDK to latest version of .NET 9",
       "managers": ["regex"],
       "matchFiles": ["global.json"],
       "matchStrings": [

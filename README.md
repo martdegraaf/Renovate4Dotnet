@@ -1,6 +1,6 @@
-# Project Title
+# Renovate4Dotnet
 
-A brief description of what this project does and who it's for.
+A quickstart guide to set up Renovate for automated dependency updates in Azure DevOps repositories.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -24,6 +24,32 @@ For each repository in Azure DevOps where you want to enable Renovate, follow th
 - Navigate to the repository in Azure DevOps.
 - Upload the file `renovate.json`  of Dotnet6/7/8 folder to the root of your repository.
 - Commit the changes to the repository.
+
+### Start Locally
+
+Set up your local environment to run Renovate. You can use Node.js to run Renovate locally.
+```cli
+$env:AZURE_DEVOPS_ORGANIZATION="htts://dev.azure.com/your-azure-devops-organization"
+$env:AZURE_DEVOPS_PROJECT="your-azure-devops-project"
+$env:AZURE_DEVOPS_PAT="token"
+```
+
+Get a token using az cli
+```cli
+$pat=$(az devops personal-access-token create --name "Renovate PAT" --organization $env:AZURE_DEVOPS_ORGANIZATION --scopes "vso.code_write vso.code_manage vso.build_execute vso.packaging_write vso.release_manage" --output tsv --query "patToken")
+$env:AZURE_DEVOPS_PAT=$pat
+```
+
+Start a dry run of Renovate to see if everything is set up correctly. This will not make any changes to your repositories but will show you what Renovate would do.
+```cli
+npx renovate --dry-run
+```
+
+Trigger the log level using these environment variables:
+```cli
+$env:LOGLEVEL=debug
+$env:LOGLEVEL=info
+```
 
 
 ### Create a place for Renovate in Azure DevOps
@@ -65,5 +91,5 @@ For each repository in Azure DevOps where you want to enable Renovate, follow th
 - Documentation Renovate Azure DevOps: https://docs.renovatebot.com/modules/platform/azure/
 - Documentation Renovate Full Config Presets: https://docs.renovatebot.com/presets-config/
 - Documentation Group Presets: https://docs.renovatebot.com/presets-group/
-- Session about Renovate: https://www.youtube.com/watch?v=vhdTByXWvd8
+- [Session about Renovate on YouTube](https://www.youtube.com/watch?v=vhdTByXWvd8)
 - Slides session about Renovate: https://github.com/eriklieben/presentations/blob/main/2024-12-27-dotnet-amsterdam-renovate-azdevops/renovate-azdevops-dep-update.pdf
